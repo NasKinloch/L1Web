@@ -1,0 +1,66 @@
+<!doctype html>
+<canvas id="gameCanvas" width="800" height="300"></canvas>
+
+<script>
+    var canvas,
+        canvasContext;
+
+    window.onload = function() {
+        canvas = document.getElementById('gameCanvas');
+        canvasContext = canvas.getContext('2d');
+        setInterval(mainloop, 1000 / 50);
+    }
+
+
+    var xPos = 0;
+    var yPos = 0;
+    const P_SIZE = 20;
+    var xSpeed = 4;
+    var ySpeed = 6;
+
+    var startingPos = true;
+
+    var player = new Image();
+
+
+    function mainloop() {
+        colorRect(0, 0, canvas.width, canvas.height, 'black');
+        drawImg(player, xPos, yPos, P_SIZE, P_SIZE)
+        colorRect(xPos, yPos, P_SIZE, P_SIZE, 'red');
+
+        if (startingPos) {
+            startPos();
+            startingPos = false;
+
+        }
+
+        movement();
+    }
+
+    function startPos() {
+        xPos = canvas.width - P_SIZE;
+    }
+
+
+    function colorRect(topLeftX, topLeftY, boxWidth, boxHeight, colorFill) {
+        canvasContext.fillStyle = colorFill;
+        canvasContext.fillRect(topLeftX, topLeftY, boxWidth, boxHeight);
+    }
+
+    function movement() {
+        xPos = xPos + xSpeed;
+
+        if (xPos + P_SIZE > canvas.width) { //right hand edge
+            xSpeed *= -1;
+        }
+        if (xPos < 0) {
+            xPos = canvas.width - P_SIZE / 1;
+        }
+
+    }
+
+    function drawImg(img, x, y, w, h) {
+        canvasContext.drawImage(img, x, y, w, h)
+    }
+
+</script>
